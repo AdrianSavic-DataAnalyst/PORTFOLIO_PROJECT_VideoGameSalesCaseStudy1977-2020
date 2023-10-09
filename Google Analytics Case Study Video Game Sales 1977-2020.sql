@@ -107,6 +107,36 @@ SELECT
     ) AS Yearly_Industry_Growth
 FROM
     YearlyData
+-----------------------------------------------------------------------------------------------------------------------------------
+
+/* Top average user scores from year 1977-2020 /*
+SELECT
+    Year,
+    AVG(User_Score) AS Avg_User_Score
+FROM
+    `game_sales_data`
+WHERE
+    User_Score <> 0  -- Exclude scores that are 0
+GROUP BY
+    Year
+ORDER BY
+    Avg_User_Score DESC
+LIMIT 10;
+--------------------------------------------------------------------------------------------------------------------------
+/* Top average critic score from years 1977-2020/*
+SELECT
+    Year,
+    AVG(Critic_Score) AS Avg_Critic_Score
+FROM
+    `game_sales_data`
+WHERE
+    Critic_Score <> 0  -- Exclude scores that are 0
+GROUP BY
+    Year
+ORDER BY
+    Avg_Critic_Score DESC
+LIMIT 10;
+-------------------------------------------------------------------------------------------------------------------------------------
 ORDER BY
     YEAR;
 ----------------------------------------------------------------------------------------------------------------------------
