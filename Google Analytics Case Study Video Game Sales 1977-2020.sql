@@ -109,34 +109,56 @@ FROM
     YearlyData
 -----------------------------------------------------------------------------------------------------------------------------------
 
-/* Top average user scores from year 1977-2020 /*
+/* Top average critic scores from 1977-2020/*
 SELECT
-    Year,
-    AVG(User_Score) AS Avg_User_Score
+    gs.Year,
+    AVG(gs.Critic_Score) AS Avg_Critic_Score,
+    ts.Total_Shipped
 FROM
-    `game_sales_data`
+    `game_sales_data` gs
+LEFT JOIN (
+    SELECT
+        Year,
+        SUM(Total_Shipped) AS Total_Shipped
+    FROM
+        `game_sales_data`
+    WHERE
+        Year BETWEEN 1977 AND 2020
+    GROUP BY
+        Year
+) ts ON gs.Year = ts.Year
 WHERE
-    User_Score <> 0  -- Exclude scores that are 0
+    gs.Critic_Score <> 0
 GROUP BY
-    Year
-ORDER BY
-    Avg_User_Score DESC
-LIMIT 10;
---------------------------------------------------------------------------------------------------------------------------
-/* Top average critic score from years 1977-2020/*
-SELECT
-    Year,
-    AVG(Critic_Score) AS Avg_Critic_Score
-FROM
-    `game_sales_data`
-WHERE
-    Critic_Score <> 0  -- Exclude scores that are 0
-GROUP BY
-    Year
+    gs.Year, ts.Total_Shipped
 ORDER BY
     Avg_Critic_Score DESC
 LIMIT 10;
--------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------
+/* Top average user scores from 1977-2020/*
+
+SELECT
+    gs.Year,
+    AVG(gs.User_Score) AS Avg_User_Score,
+    ts.Total_Shipped
+FROM
+    `game_sales_data` gs
+LEFT JOIN (
+    SELECT
+        Year,
+        SUM(Total_Shipped) AS Total_Shipped
+    FROM
+        `game_sales_data`
+    WHERE
+        Year BETWEEN 1977 AND 2020
+    GROUP BY
+        Year
+) ts ON gs.Year = ts.Year
+WHERE
+    gs.User_Score <> 0
+GROUP BY
+    gs.Year, ts.Total_Shipped
 ORDER BY
-    YEAR;
-----------------------------------------------------------------------------------------------------------------------------
+    Avg_User_Score DESC
+LIMIT 10;
+-----------------------------------------------------------------------------------------------------------------------------------------------
