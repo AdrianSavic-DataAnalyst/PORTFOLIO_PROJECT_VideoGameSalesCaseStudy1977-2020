@@ -162,3 +162,29 @@ ORDER BY
     Avg_User_Score DESC
 LIMIT 10;
 -----------------------------------------------------------------------------------------------------------------------------------------------
+/* Average critic score by platform /*
+SELECT
+    Platform,
+    AVG(Critic_Score) AS Avg_Critic_Score
+FROM
+    `game_sales_data`
+WHERE
+    Critic_Score <> 0
+GROUP BY
+    Platform
+ORDER BY
+    Avg_Critic_Score DESC;
+--------------------------------------------------------------------------------------------------------------------------
+/* Average user score by platform /* 
+SELECT
+    Platform,
+    AVG(User_Score) AS Avg_User_Score
+FROM
+    `game_sales_data`
+WHERE
+    User_Score <> 0
+GROUP BY
+    Platform
+ORDER BY
+    Avg_User_Score DESC;
+-----------------------------------------------------------------------------------------------------------------------
